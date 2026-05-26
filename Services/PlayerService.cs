@@ -1,35 +1,40 @@
+using RealtimePokerBackend.Data;
 using RealtimePokerBackend.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace RealtimePokerBackend.Services;
 
 public class PlayerService
 {
-    private readonly List<Player> _players = new List<Player>
-    {
-        new() { Id = 1, Username = "PokerKing", Chips = 2500 },
-        new() { Id = 2, Username = "RoyalFlush", Chips = 3000 }
-    };
+    private readonly AppDbContext _db;
 
-    public List<Player> GetPlayers()
+    public PlayerService(AppDbContext db)
     {
-        return _players;
+        _db = db;
     }
 
-    public Player CreatePlayer(string username, int chips)
+    public async Task<List<Player>> GetPlayers()
     {
-        var newPlayer = new Player
+        return await _db.Players.ToListAsync();
+    }
+
+    public async Task<Player> CreatePlayer(string username, int chips)
+    {
+        var player = new Player
         {
-            Id = _players.Count + 1,
             Username = username,
             Chips = chips
         };
 
-        _players.Add(newPlayer);
+        _db.Players.Add(player);
+        await _db.SaveChangesAsync();
 
-        return newPlayer;
+        return player;
     }
 
-    public Player? UpdatePlayer(int id, string username, int chips)
+    public async Task<Player?> UpdatePlayer(int id, string username, int chips)
     {
-        var player = _players.FirstOrDefault(p => p.Id == id);
+        var player = await _db.Players.FindAsync(id);
 
         if (player == null)
         {
@@ -39,19 +44,23 @@ public class PlayerService
         player.Username = username;
         player.Chips = chips;
 
+        await _db.SaveChangesAsync();
+
         return player;
     }
 
-    public bool DeletePlayer(int id)
+    public async Task<bool> DeletePlayer(int id)
     {
-        var player = _players.FirstOrDefault(p => p.Id == id);
+        var player = await _db.Players.FindAsync(id);
 
         if (player == null)
         {
             return false;
         }
 
-        _players.Remove(player);
+        _db.Players.Remove(player);
+        await _db.SaveChangesAsync();
+        
         return true;
     }
 }

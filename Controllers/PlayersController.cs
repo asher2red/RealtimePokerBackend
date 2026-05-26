@@ -1,9 +1,8 @@
-using System.Data.Common;
-using System.Net.Security;
-using System.Threading.Channels;
 using Microsoft.AspNetCore.Mvc;
-using RealtimePokerBackend.Models;
 using RealtimePokerBackend.DTOs;
+using RealtimePokerBackend.Services;
+
+namespace RealtimePokerBackend.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -17,22 +16,22 @@ public class PlayersController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetPlayers()
+    public async Task<IActionResult> GetPlayers()
     {
-        return Ok(_playerService.GetPlayers());
+        return Ok(await _playerService.GetPlayers());
     }
 
     [HttpPost]
-    public IActionResult CreatePlayer([FromBody] CreatePlayerRequest request)
+    public async Task<IActionResult> CreatePlayer([FromBody] CreatePlayerRequest request)
     {
-        var player = _playerService.CreatePlayer(request.Username, request.Chips);
+        var player = await _playerService.CreatePlayer(request.Username, request.Chips);
         return Ok(player);
     }
 
     [HttpPut("{id}")]
-    public IActionResult UpdatePlayer(int id, [FromBody] CreatePlayerRequest request)
+    public async Task<IActionResult> UpdatePlayer(int id, [FromBody] CreatePlayerRequest request)
     {
-        var player = _playerService.UpdatePlayer(id, request.Username, request.Chips);
+        var player = await _playerService.UpdatePlayer(id, request.Username, request.Chips);
 
         if (player == null)
         {
@@ -43,9 +42,9 @@ public class PlayersController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public IActionResult DeletePlayer(int id)
+    public async Task<IActionResult> DeletePlayer(int id)
     {
-        var deleted = _playerService.DeletePlayer(id);
+        var deleted = await _playerService.DeletePlayer(id);
 
         if (!deleted)
         {

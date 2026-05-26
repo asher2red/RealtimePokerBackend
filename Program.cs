@@ -1,7 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using RealtimePokerBackend.Data;
+using RealtimePokerBackend.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data source=poker.db"));
+
 Console.WriteLine("Controllers registered");
-builder.Services.AddSingleton<PlayerService>();
+builder.Services.AddScoped<PlayerService>();
 builder.Services.AddControllers();
 
 // Swagger
