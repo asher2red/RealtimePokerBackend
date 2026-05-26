@@ -1,0 +1,10 @@
+namespace RealtimePokerBackend.Models;
+
+public class Player
+{
+    public int Id { get; set; }
+
+    public string Username { get; set; } = string.Empty;
+
+    public int Chips { get; set; }
+}
