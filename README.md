@@ -16,6 +16,8 @@ JWT 인증, EF Core ORM, SQLite DB, Swagger API 문서화를 적용하여
 - JWT Authentication
 - BCrypt Password Hashing
 - Swagger / OpenAPI
+- SignalR
+- WebSocket
 
 ---
 
@@ -34,6 +36,13 @@ JWT 인증, EF Core ORM, SQLite DB, Swagger API 문서화를 적용하여
 - EF Core 기반 DB 저장
 - DTO Validation 적용
 - SQLite 영구 저장
+
+### Real-time Communication
+
+- SignalR 기반 WebSocket 통신
+- Poker Room Join / Leave
+- 실시간 Broadcast Message
+- Group 기반 Room 관리
 
 ### Database
 
