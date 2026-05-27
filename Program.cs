@@ -81,6 +81,11 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddSignalR();
 
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = "localhost:6379";
+});
+
 var app = builder.Build();
 
 // 임시 유저 추가 테스트 코드
