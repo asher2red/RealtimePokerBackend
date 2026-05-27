@@ -7,8 +7,22 @@ using RealtimePokerBackend.Services;
 using RealtimePokerBackend.Models;
 using Microsoft.OpenApi.Models;
 using BCrypt.Net;
+using RealtimePokerBackend.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy
+                .WithOrigins("http://localhost:8080")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
+        });
+});
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -65,7 +79,10 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Services.AddSignalR();
+
 var app = builder.Build();
+
 // 임시 유저 추가 테스트 코드
 using (var scope = app.Services.CreateScope())
 {
@@ -91,6 +108,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -98,5 +116,6 @@ app.UseAuthorization();
 app.MapGet("/", () => "RealtimePokerBackend Running!");
 app.MapControllers();
 Console.WriteLine("MapControllers executed");
+app.MapHub<PokerHub>("/hubs/poker");
 
 app.Run();
