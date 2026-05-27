@@ -1,79 +1,193 @@
 # RealtimePokerBackend
 
-ASP.NET Core 기반 Poker Backend 학습 및 포트폴리오 프로젝트 입니다.
+ASP.NET Core 기반의 실시간 포커 백엔드 학습 프로젝트입니다.
 
-## 기술 스택
+JWT 인증, EF Core ORM, SQLite DB, Swagger API 문서화를 적용하여
+실제 서비스 백엔드 구조를 학습하고 구현하는 것을 목표로 합니다.
 
-- ASP.Net Core (.Net 10)
+---
+
+## Tech Stack
+
+- ASP.NET Core Web API (.NET 10)
 - C#
-- Swagger
-- Dependency Injection (DI)
-- REST_API
+- Entity Framework Core
+- SQLite
+- JWT Authentication
+- BCrypt Password Hashing
+- Swagger / OpenAPI
 
-## 프로젝트 구조
+---
 
-```txt
-Controllers
-Services
-Models
-DTOs
-Data
-Auth
-```
+## Features
 
-## 구현 기능
+### Authentication
+
+- JWT 기반 로그인 인증
+- BCrypt 기반 비밀번호 해시 저장
+- Authorization 보호 API
+- Swagger JWT 인증 테스트 지원
 
 ### Player API
 
-- Player 조회 (GET)
-- Player 생성 (POST)
-- Player 수정 (PUT)
-- Player 삭제 (DELETE)
+- Player CRUD API
+- EF Core 기반 DB 저장
+- DTO Validation 적용
+- SQLite 영구 저장
 
-### Validation
+### Database
 
-- DataAnnotations 기반 요청 데이터 검증
-- 자동 400 Bad Request 응답 처리
+- EF Core Migration 적용
+- SQLite Database 연동
 
-### Architecture
+---
 
-- Controller / Service Layer 분리
-- Dependency Injection 적용
+## Project Structure
+
+```txt
+RealtimePokerBackend
+
+├── Controllers
+│   ├── AuthController.cs
+│   └── PlayersController.cs
+│
+├── Services
+│   └── PlayerService.cs
+│
+├── Data
+│   └── AppDbContext.cs
+│
+├── Models
+│   ├── Player.cs
+│   └── User.cs
+│
+├── DTOs
+│
+└── Program.cs
+```
+
+---
 
 ## API Endpoints
 
-GET
+### Auth
 
-```txt
-/api/Players
+#### Login
+
+POST `/api/Auth/login`
+
+Request
+
+```json
+{
+  "userName": "admin",
+  "password": "1234"
+}
 ```
 
-POST
+Response
 
-```txt
-/api/Players
+```json
+{
+  "token": "JWT_TOKEN"
+}
 ```
 
-PUT
+---
+
+### Players
+
+#### Get Players
+
+GET `/api/Players`
+
+Authorization Required
 
 ```txt
-/api/Players/{id}
+Bearer JWT_TOKEN
 ```
 
-DELETE
+Example Response
 
-```txt
-/api/Players{id}
+```json
+[
+  {
+    "id": 1,
+    "username": "player1",
+    "chips": 1000
+  },
+  {
+    "id": 2,
+    "username": "player2",
+    "chips": 2000
+  }
+]
 ```
 
-## 실행 방법
+---
 
-```txt
+## Run Project
+
+### Install Dependencies
+
+```bash
+dotnet restore
+```
+
+### Run Server
+
+```bash
 dotnet run
 ```
 
-Swagger 접속
+---
+
+## Database Migration
+
+Create Migration
+
+```bash
+dotnet ef migrations add InitialCreate
+```
+
+Apply Migration
+
+```bash
+dotnet ef database update
+```
+
+---
+
+## Authentication Flow
 
 ```txt
-http://localhost:5114/swagger
+Login
+↓
+JWT Token 발급
+↓
+Swagger Authorize
+↓
+Authorization Header 적용
+↓
+Protected API 접근
 ```
+
+---
+
+## Future Improvements
+
+- SignalR WebSocket 실시간 통신
+- Role 기반 Authorization
+- Redis Cache
+- Docker 배포
+- AWS / Azure Cloud 환경 적용
+
+---
+
+## Learning Goals
+
+- ASP.NET Core Web API 구조 이해
+- EF Core ORM 및 Migration 경험
+- JWT 기반 인증/인가 구현
+- 실무형 백엔드 계층 구조 학습
+- 실시간 서비스(WebSocket) 확장 기반 구축
