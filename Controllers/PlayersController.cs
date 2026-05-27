@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RealtimePokerBackend.DTOs;
 using RealtimePokerBackend.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RealtimePokerBackend.Controllers;
 
@@ -15,6 +16,8 @@ public class PlayersController : ControllerBase
         _playerService = playerService;
     }
 
+
+    [Authorize]
     [HttpGet]
     public async Task<IActionResult> GetPlayers()
     {

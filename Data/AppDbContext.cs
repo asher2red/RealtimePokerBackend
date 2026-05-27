@@ -11,4 +11,6 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<Player> Players => Set<Player>();
+
+    public DbSet<User> Users => Set<User>();
 }
