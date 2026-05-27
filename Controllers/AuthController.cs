@@ -25,10 +25,14 @@ public class AuthController : ControllerBase
     public IActionResult Login(User request)
     {
         var user = _db.Users
-            .FirstOrDefault(u => u.Username == request.Username
-                               && u.Password == request.Password);
+            .FirstOrDefault(u => u.Username == request.Username);
 
         if (user == null)
+            return Unauthorized();
+
+        bool verified = BCrypt.Net.BCrypt.Verify(request.Password, user.Password);
+
+        if (!verified)
             return Unauthorized();
 
         var tokenHandler = new JwtSecurityTokenHandler();

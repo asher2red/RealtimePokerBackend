@@ -6,6 +6,7 @@ using RealtimePokerBackend.Data;
 using RealtimePokerBackend.Services;
 using RealtimePokerBackend.Models;
 using Microsoft.OpenApi.Models;
+using BCrypt.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -77,7 +78,7 @@ using (var scope = app.Services.CreateScope())
         db.Users.Add(new User
         {
             Username = "admin",
-            Password = "1234"
+            Password = BCrypt.Net.BCrypt.HashPassword("1234")
         });
 
         db.SaveChanges();
