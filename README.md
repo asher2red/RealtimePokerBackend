@@ -18,6 +18,8 @@ JWT 인증, EF Core ORM, SQLite DB, Swagger API 문서화를 적용하여
 - Swagger / OpenAPI
 - SignalR
 - WebSocket
+- Redis
+- Docker
 
 ---
 
@@ -48,6 +50,17 @@ JWT 인증, EF Core ORM, SQLite DB, Swagger API 문서화를 적용하여
 
 - EF Core Migration 적용
 - SQLite Database 연동
+
+### Cache
+
+- Redis 기반 Player 조회 캐싱
+- Cache Aside Pattern 적용
+- Cache Invalidation 구현
+
+### Docker
+
+- Dockerfile 기반 컨테이너 이미지 생성
+- Docker Compose 기반 Backend / Redis 환경 구성
 
 ---
 

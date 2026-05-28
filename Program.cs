@@ -83,7 +83,7 @@ builder.Services.AddSignalR();
 
 builder.Services.AddStackExchangeRedisCache(options =>
 {
-    options.Configuration = "localhost:6379";
+    options.Configuration = builder.Configuration["RedisConnection"] ?? "localhost:6379";
 });
 
 var app = builder.Build();
