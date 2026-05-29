@@ -43,7 +43,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data source=poker.db"));
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    var connectionString =
+        "server=localhost;port=3307;database=pokerdb;user=root;password=password123";
+
+    options.UseMySql(
+        connectionString,
+        ServerVersion.AutoDetect(connectionString));
+});
 
 Console.WriteLine("Controllers registered");
 builder.Services.AddScoped<PlayerService>();

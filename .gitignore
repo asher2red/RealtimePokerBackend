@@ -1,8 +1,4 @@
 bin/
 obj/
 .vscode/
-
-# SQLite
-*.db
-*.db-shm
-*.db-wal
+.env
